@@ -21,7 +21,6 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    docs: './docs/docs.js',
     ['v-calendar']: './src/lib.js'
   },
   output: {

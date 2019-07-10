@@ -14,6 +14,15 @@ import {
   getFirstValidPage,
   getPageForDate,
 } from '../utils/helpers';
+import JDate from 'jalali-date';
+
+export const GregorianDate = {
+  calendar: Date,
+};
+
+export const JalaliDate = {
+  calendar: JDate,
+};
 
 export default {
   mixins: [mergeListeners],
@@ -69,7 +78,7 @@ export default {
             style: this.dividerStyle,
           }),
           getPaneComponent(2),
-        ] ||[]),
+        ] || []),
       ],
     );
   },
@@ -96,6 +105,10 @@ export default {
     themeStyles: Object,
     attributes: Array,
     formats: Object,
+    calendar: {
+      type: Object,
+      default: () => GregorianDate,
+    },
   },
   data() {
     return {

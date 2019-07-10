@@ -4,14 +4,39 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
     <title>V-Calendar</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <v-date-picker
+        :is-inline="true"
+        v-model="sth"
+        columns="2"
+        :popover="false"
+      />
+    </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,Array.prototype.find,Array.prototype.includes,Array.prototype.forEach"></script>
     <!-- built files will be auto injected -->
+    <script src='https://unpkg.com/vue/dist/vue.js'></script>
+    <script>
+      window.onload = function() {
+        new Vue({
+          el: '#app',
+          data: {
+            sth: null,
+            // Data used by the date picker
+            attrs: [
+              {
+                key: 'today',
+                highlight: {
+                  // Other properties are available too, like `height` & `borderRadius`
+                },
+                dates: new Date(2019, 6, 10)
+              }
+            ],
+          }
+        });
+      };
+    </script>
   </body>
 </html>

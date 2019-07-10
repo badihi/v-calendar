@@ -12,6 +12,8 @@ import { pageIsBetweenPages } from '@/utils/helpers';
 import { isString, isFunction, isObject, isArray } from '@/utils/typeCheckers';
 import { format, parse } from '@/utils/fecha';
 import { mergeListeners } from '@/mixins';
+// import { GregorianDate } from './Calendar';
+import { JalaliDate } from './Calendar';
 
 export default {
   mixins: [mergeListeners],
@@ -31,6 +33,7 @@ export default {
           fromPage: this.fromPage_,
           toPage: this.toPage_,
           themeStyles: this.themeStyles_,
+          calendar: JalaliDate,
         },
         on: this.mergeListeners(
           {
