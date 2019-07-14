@@ -21,6 +21,9 @@ export const GregorianDate = {
   calendar: Date,
   firstDayOfWeek: 1,
   defaultDirection: 'ltr',
+  inLeapYear: year => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0,
+  daysInMonths: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+  daysInMonth: (month, year) => month === 2 && this.inLeapYear(year) ? 29 : this.daysInMonths[month - 1],
 };
 
 export const JalaliDate = {
@@ -28,6 +31,14 @@ export const JalaliDate = {
   firstDayOfWeek: 7,
   defaultLocale: getLocaleDefaults('fa'),
   defaultDirection: 'rtl',
+  inLeapYear: year => (new JDate(year, 11, 30)).getDate() === 30,
+  daysInMonth(month, year) {
+    if (month <= 6)
+      return 31;
+    else if (month <= 11 || JalaliDate.inLeapYear(year))
+      return 30;
+    return 29;
+  },
 };
 
 export default {

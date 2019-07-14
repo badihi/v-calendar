@@ -44,7 +44,7 @@ const defaults = {
   datePickerUpdateOnInput: false,
   datePickerTintColor: '#66B3CC',
   datePickerShowCaps: false,
-  datePickerShowDayPopover: true,
+  datePickerShowDayPopover: false,
   datePickerDisabledAttribute: {
     contentStyle: ({ isHovered }) => ({
       color: '#d98c8c',

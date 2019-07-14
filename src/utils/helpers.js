@@ -89,10 +89,10 @@ export const getMonthComps = (month, year, calendar) => {
   let comps = monthComps[key];
   if (!comps) {
     const firstDayOfWeek = calendar.firstDayOfWeek || defaults.firstDayOfWeek;
-    const inLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    const inLeapYear = calendar.inLeapYear(year);
     // eslint-disable-next-line new-cap
     const firstWeekday = (new (calendar.calendar)(year, month - 1, 1)).getDay() + 1;
-    const days = month === 2 && inLeapYear ? 29 : daysInMonths[month - 1];
+    const days = calendar.daysInMonth(month, year);
     const weeks = Math.ceil(
       (days + Math.abs(firstWeekday - firstDayOfWeek)) / 7,
     );
