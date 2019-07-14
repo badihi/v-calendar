@@ -255,9 +255,12 @@ const DateInfo = (config, order) => {
   if (info.isDate) {
     info.type = 'date';
     // Initialize date from config
-    const date =
+    let date =
       (!isString(config) && new Date(config)) ||
       parse(config, defaults.formats.data || ['L', 'YYYY-MM-DD', 'YYYY/MM/DD']);
+    if (config && config.constructor.name.includes('Date') && config.constructor.name !== 'Date') {
+      date = config.getGregorianDate();
+    }
     // Can't accept invalid dates
     if (isNaN(date)) return null;
     // Strip date time

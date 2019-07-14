@@ -84,6 +84,8 @@ export const getMonthComps = (month, year, calendar) => {
     calendar = {
       calendar: Date,
       firstDayOfWeek: 1,
+      inLeapYear: () => false,
+      daysInMonth: () => 30,
     };
   const key = `${month}.${year}`;
   let comps = monthComps[key];
