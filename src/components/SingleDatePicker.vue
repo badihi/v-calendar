@@ -22,7 +22,7 @@ export default {
     Calendar,
   },
   props: {
-    value: { type: Date, default: null },
+    value: { type: Object, default: null },
     isRequired: Boolean,
     selectAttribute: Object,
     disabledAttribute: Object,
@@ -53,6 +53,7 @@ export default {
         });
         return;
       }
+
       // Check if selected date was reselected
       if (singleValuesAreEqual(day.date, this.value)) {
         // Reset value to null if allowed

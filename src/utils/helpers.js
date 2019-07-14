@@ -51,7 +51,12 @@ export const getMonthDates = (year = 2000, calendar) => {
 
   const dates = [];
   for (let i = 0; i < 12; i++) {
-    dates.push(new calendar(year, i, 15));
+    // eslint-disable-next-line new-cap
+    let date = new calendar(year, i, 15);
+    if (date.constructor.name !== 'Date') {
+      date = date.getGregorianDate();
+    }
+    dates.push(date);
   }
   return dates;
 };
@@ -85,6 +90,7 @@ export const getMonthComps = (month, year, calendar) => {
   if (!comps) {
     const firstDayOfWeek = calendar.firstDayOfWeek || defaults.firstDayOfWeek;
     const inLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    // eslint-disable-next-line new-cap
     const firstWeekday = (new (calendar.calendar)(year, month - 1, 1)).getDay() + 1;
     const days = month === 2 && inLeapYear ? 29 : daysInMonths[month - 1];
     const weeks = Math.ceil(

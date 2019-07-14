@@ -79,6 +79,7 @@ export default {
           // Note: this might or might not be an actual month day
           //  We don't know how the UI wants to display various days,
           //  so we'll supply all the data we can
+          // eslint-disable-next-line new-cap
           const date = new (this.calendar.calendar)(year, month - 1, day);
           const isToday = day === todayComps.day && month === todayComps.month && year === todayComps.year;
           const isFirstDay = thisMonth && day === 1;

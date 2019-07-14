@@ -26,7 +26,7 @@ export const GregorianDate = {
 export const JalaliDate = {
   calendar: JDate,
   firstDayOfWeek: 7,
-  defaultLocale: getLocaleDefaults('fa-IR'),
+  defaultLocale: getLocaleDefaults('fa'),
   defaultDirection: 'rtl',
 };
 

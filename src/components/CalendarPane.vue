@@ -409,6 +409,7 @@ export default {
       const key = `${year.toString()}.${month.toString()}`;
       let page = this.pages.find(p => p.key === key);
       if (!page) {
+        // eslint-disable-next-line new-cap
         const date = new (this.calendar.calendar)(year, month - 1, 15);
         const monthComps = getMonthComps(month, year, this.calendar);
         const prevMonthComps = getPrevMonthComps(month, year, this.calendar);

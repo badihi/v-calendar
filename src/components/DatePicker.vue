@@ -34,7 +34,8 @@ export default {
           toPage: this.toPage_,
           themeStyles: this.themeStyles_,
           calendar: JalaliDate,
-          isDoublePaned: true,
+          isDoublePaned: this.doubleMonth,
+          isLinked: this.doubleMonth,
         },
         on: this.mergeListeners(
           {
@@ -152,6 +153,7 @@ export default {
     fromPage: Object,
     toPage: Object,
     themeStyles: { type: Object, default: () => ({}) }, // Resolved by computed property
+    doubleMonth: { type: Boolean, default: () => false },
   },
   data() {
     return {

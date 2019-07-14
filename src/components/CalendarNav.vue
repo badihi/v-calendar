@@ -285,7 +285,9 @@ export default {
             // Get range for the current month
             const comps = getMonthComps(m, y);
             const monthRange = new DateInfo({
+              // eslint-disable-next-line new-cap
               start: new (this.calendar.calendar)(comps.year, comps.month - 1, 1),
+              // eslint-disable-next-line new-cap
               end: new (this.calendar.calendar)(comps.year, comps.month - 1, comps.days),
             });
             // Assign attribute data if they lie in month range

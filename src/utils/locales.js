@@ -1,4 +1,5 @@
 import { getMonthDates, getWeekdayDates } from './helpers';
+import JDate from './jalalidate';
 
 // Infer first day of week === 1 if not listed (dow)
 const locales = {
@@ -77,7 +78,7 @@ const locales = {
   // Estonian
   et: { dow: 2, L: 'DD.MM.YYYY' },
   // Farsi
-  fa: { dow: 1, L: 'DD/MM/YYYY' },
+  fa: { dow: 1, L: 'DD/MM/YYYY', calendarFunc: JDate },
 };
 locales.en = locales['en-US'];
 locales.zh = locales['zh-CN'];
@@ -88,7 +89,7 @@ const getMonthNames = (locale, length) => {
     month: length,
     timezome: 'UTC',
   });
-  return getMonthDates().map(d => dtf.format(d));
+  return getMonthDates(2000, locales[locale] && locales[locale].calendarFunc || Date).map(d => dtf.format(d));
 };
 const getDayNames = (locale, length) => {
   const dtf = new Intl.DateTimeFormat(locale, {
