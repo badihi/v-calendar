@@ -163,6 +163,7 @@ export default {
     formats: Object,
     attributes: Array,
     styles: Object,
+    calendar: Object,
   },
   data() {
     return {
@@ -189,8 +190,8 @@ export default {
       return this.styles.navHeaderArrows;
     },
     monthItems() {
-      return getMonthDates()
-        .map(d => format(d, this.formats.navMonths))
+      return getMonthDates(2000, this.calendar.calendar)
+        .map(d => format(d, this.formats.navMonths, this.calendar.defaultLocale))
         .map((ml, i) => {
           const month = i + 1;
           return {
@@ -284,8 +285,8 @@ export default {
             // Get range for the current month
             const comps = getMonthComps(m, y);
             const monthRange = new DateInfo({
-              start: new Date(comps.year, comps.month - 1, 1),
-              end: new Date(comps.year, comps.month - 1, comps.days),
+              start: new (this.calendar.calendar)(comps.year, comps.month - 1, 1),
+              end: new (this.calendar.calendar)(comps.year, comps.month - 1, comps.days),
             });
             // Assign attribute data if they lie in month range
             this.attributes.forEach(a => {

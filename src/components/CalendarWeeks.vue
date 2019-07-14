@@ -1,8 +1,9 @@
 <template>
-<div> 
+<div>
   <div
     class='c-week'
     v-for='(week, i) in weeks'
+    :style='weekStyle'
     :key='i + 1'
     @touchstart.passive='$emit("touchstart", $event)'
     @touchmove.passive='$emit("touchmove", $event)'
@@ -34,6 +35,7 @@ export default {
     prevMonthComps: Object,
     nextMonthComps: Object,
     trimMaxWeek: Boolean,
+    calendar: Object,
   },
   computed: {
     weeks() {
@@ -77,7 +79,7 @@ export default {
           // Note: this might or might not be an actual month day
           //  We don't know how the UI wants to display various days,
           //  so we'll supply all the data we can
-          const date = new Date(year, month - 1, day);
+          const date = new (this.calendar.calendar)(year, month - 1, day);
           const isToday = day === todayComps.day && month === todayComps.month && year === todayComps.year;
           const isFirstDay = thisMonth && day === 1;
           const isLastDay = thisMonth && day === this.monthComps.days;
@@ -130,6 +132,11 @@ export default {
         weekFromEnd--;
       }
       return weeks;
+    },
+    weekStyle() {
+      return {
+        direction: this.calendar.defaultDirection,
+      };
     },
   },
 };

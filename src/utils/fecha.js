@@ -236,12 +236,12 @@ parseFlags.hh = parseFlags.H = parseFlags.HH = parseFlags.h;
 parseFlags.ss = parseFlags.s;
 parseFlags.A = parseFlags.a;
 
-export const format = (dateObj, mask) => {
+export const format = (dateObj, mask, i18n) => {
   if (typeof dateObj === 'number') {
     dateObj = new Date(dateObj);
   }
   if (
-    Object.prototype.toString.call(dateObj) !== '[object Date]' ||
+//    Object.prototype.toString.call(dateObj) !== '[object Date]' ||
     isNaN(dateObj.getTime())
   ) {
     throw new Error('Invalid Date in fecha.format');
@@ -258,7 +258,7 @@ export const format = (dateObj, mask) => {
     token,
     $0 =>
       $0 in formatFlags
-        ? formatFlags[$0](dateObj, defaults)
+        ? formatFlags[$0](dateObj, i18n || defaults)
         : $0.slice(1, $0.length - 1),
   );
   // Inline literal values back into the formatted value

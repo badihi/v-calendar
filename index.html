@@ -13,6 +13,7 @@
         v-model="sth"
         columns="2"
         :popover="false"
+        :from-page="fromPage"
       />
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,Array.prototype.find,Array.prototype.includes,Array.prototype.forEach"></script>
@@ -24,6 +25,7 @@
           el: '#app',
           data: {
             sth: null,
+            fromPage: { month: 5, year: 1398 },
             // Data used by the date picker
             attrs: [
               {
@@ -31,7 +33,7 @@
                 highlight: {
                   // Other properties are available too, like `height` & `borderRadius`
                 },
-                dates: new Date(2019, 6, 10)
+                //dates: new Date(1398, 6, 10)
               }
             ],
           }

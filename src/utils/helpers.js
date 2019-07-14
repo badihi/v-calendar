@@ -45,10 +45,13 @@ export const getPageForDate = date => {
 
 export const evalFn = (fn, args) => (isFunction(fn) ? fn(args) : fn);
 
-export const getMonthDates = (year = 2000) => {
+export const getMonthDates = (year = 2000, calendar) => {
+  if (typeof calendar === 'undefined')
+    calendar = Date;
+
   const dates = [];
   for (let i = 0; i < 12; i++) {
-    dates.push(new Date(year, i, 15));
+    dates.push(new calendar(year, i, 15));
   }
   return dates;
 };
@@ -71,13 +74,18 @@ export const getWeekdayDates = ({
 };
 
 // Days/month/year components for a given month and year
-export const getMonthComps = (month, year) => {
+export const getMonthComps = (month, year, calendar) => {
+  if (typeof calendar === 'undefined')
+    calendar = {
+      calendar: Date,
+      firstDayOfWeek: 1,
+    };
   const key = `${month}.${year}`;
   let comps = monthComps[key];
   if (!comps) {
-    const firstDayOfWeek = defaults.firstDayOfWeek;
+    const firstDayOfWeek = calendar.firstDayOfWeek || defaults.firstDayOfWeek;
     const inLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-    const firstWeekday = new Date(year, month - 1, 1).getDay() + 1;
+    const firstWeekday = (new (calendar.calendar)(year, month - 1, 1)).getDay() + 1;
     const days = month === 2 && inLeapYear ? 29 : daysInMonths[month - 1];
     const weeks = Math.ceil(
       (days + Math.abs(firstWeekday - firstDayOfWeek)) / 7,
@@ -107,15 +115,15 @@ export const getThisMonthComps = () =>
   getMonthComps(todayComps.month, todayComps.year);
 
 // Day/month/year components for previous month
-export const getPrevMonthComps = (month, year) => {
-  if (month === 1) return getMonthComps(12, year - 1);
-  return getMonthComps(month - 1, year);
+export const getPrevMonthComps = (month, year, calendar) => {
+  if (month === 1) return getMonthComps(12, year - 1, calendar);
+  return getMonthComps(month - 1, year, calendar);
 };
 
 // Day/month/year components for next month
-export const getNextMonthComps = (month, year) => {
-  if (month === 12) return getMonthComps(1, year + 1);
-  return getMonthComps(month + 1, year);
+export const getNextMonthComps = (month, year, calendar) => {
+  if (month === 12) return getMonthComps(1, year + 1, calendar);
+  return getMonthComps(month + 1, year, calendar);
 };
 
 export const getExampleMonthComps = () => {

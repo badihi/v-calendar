@@ -34,6 +34,7 @@ export default {
           toPage: this.toPage_,
           themeStyles: this.themeStyles_,
           calendar: JalaliDate,
+          isDoublePaned: true,
         },
         on: this.mergeListeners(
           {

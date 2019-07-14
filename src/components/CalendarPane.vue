@@ -13,7 +13,7 @@
           v-bind='page_'
           v-if='!hideLeftButton'>
           <svg-icon
-            name='leftArrow'
+            :name='calendar.defaultDirection === "ltr" ? "leftArrow" : "rightArrow"'
             :class='["c-arrow", { "c-disabled": !canMovePrevMonth }]'
             :style='arrowStyle'
             @click='movePrevMonth'>
@@ -22,8 +22,8 @@
       </div>
       <!--Header title-->
       <div
-        :class='["c-title-layout", titleClass]'>   
-        <!--Navigation popover--> 
+        :class='["c-title-layout", titleClass]'>
+        <!--Navigation popover-->
         <popover
           class='c-title-popover'
           direction='bottom'
@@ -58,6 +58,7 @@
             :validator='canMove'
             :styles='styles'
             :formats='formats'
+            :calendar='calendar'
             @input='navPageSelected($event)'>
             <!-- Pass through nav slots -->
             <template
@@ -76,7 +77,7 @@
           v-bind='page_'
           v-if='!hideRightButton'>
           <svg-icon
-            name='rightArrow'
+            :name='calendar.defaultDirection === "rtl" ? "leftArrow" : "rightArrow"'
             :class='["c-arrow", { "c-disabled": !canMoveNextMonth }]'
             :style='arrowStyle'
             @click='moveNextMonth'>
@@ -127,6 +128,7 @@
         :next-month-comps='p.nextMonthComps'
         :styles='styles'
         :formats='formats'
+        :calendar='calendar'
         v-bind='$attrs'
         @touchstart.passive='touchStart($event)'
         @touchmove.passive='touchMove($event)'
@@ -184,6 +186,7 @@ export default {
     paneWidth: Number,
     hideLeftButton: Boolean,
     hideRightButton: Boolean,
+    calendar: Object,
   },
   data() {
     return {
@@ -204,8 +207,8 @@ export default {
       );
     },
     weekdayLabels() {
-      return getWeekdayDates({ firstDayOfWeek: defaults.firstDayOfWeek }).map(
-        d => format(d, this.formats.weekdays),
+      return getWeekdayDates({ firstDayOfWeek: this.calendar.firstDayOfWeek || defaults.firstDayOfWeek }).map(
+        d => format(d, this.formats.weekdays, this.calendar.defaultLocale),
       );
     },
     titleClass() {
@@ -231,7 +234,7 @@ export default {
       };
     },
     headerStyle() {
-      return evalFn(this.styles.header, this.page_);
+      return Object.assign({}, evalFn(this.styles.header, this.page_), { direction: this.calendar.defaultDirection });
     },
     titleStyle() {
       return evalFn(this.styles.headerTitle, this.page_);
@@ -243,7 +246,7 @@ export default {
       return evalFn(this.styles.headerHorizontalDivider, this.page_);
     },
     weekdaysStyle_() {
-      return evalFn(this.styles.weekdays, this.page_);
+      return Object.assign({}, evalFn(this.styles.weekdays, this.page_), { direction: this.calendar.defaultDirection });
     },
     weekdaysHorizontalDividerStyle_() {
       return evalFn(this.styles.weekdaysHorizontalDivider, this.page_);
@@ -406,17 +409,17 @@ export default {
       const key = `${year.toString()}.${month.toString()}`;
       let page = this.pages.find(p => p.key === key);
       if (!page) {
-        const date = new Date(year, month - 1, 15);
-        const monthComps = getMonthComps(month, year);
-        const prevMonthComps = getPrevMonthComps(month, year);
-        const nextMonthComps = getNextMonthComps(month, year);
+        const date = new (this.calendar.calendar)(year, month - 1, 15);
+        const monthComps = getMonthComps(month, year, this.calendar);
+        const prevMonthComps = getPrevMonthComps(month, year, this.calendar);
+        const nextMonthComps = getNextMonthComps(month, year, this.calendar);
         page = {
           key,
           month,
           year,
-          title: format(date, this.formats.title),
-          shortMonthLabel: format(date, 'MMM'),
-          monthLabel: format(date, 'MMMM'),
+          title: format(date, this.formats.title, this.calendar.defaultLocale),
+          shortMonthLabel: format(date, 'MMM', this.calendar.defaultLocale),
+          monthLabel: format(date, 'MMMM', this.calendar.defaultLocale),
           shortYearLabel: year.toString().substring(2),
           yearLabel: year.toString(),
           monthComps,

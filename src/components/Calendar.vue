@@ -2,6 +2,7 @@
 import CalendarPane from './CalendarPane';
 import AttributeStore from '../utils/attributeStore';
 import defaults from '../utils/defaults';
+import getLocaleDefaults from '../utils/locales';
 import { mergeListeners } from '@/mixins';
 import {
   todayComps,
@@ -14,14 +15,19 @@ import {
   getFirstValidPage,
   getPageForDate,
 } from '../utils/helpers';
-import JDate from 'jalali-date';
+import JDate from '../utils/jalalidate';
 
 export const GregorianDate = {
   calendar: Date,
+  firstDayOfWeek: 1,
+  defaultDirection: 'ltr',
 };
 
 export const JalaliDate = {
   calendar: JDate,
+  firstDayOfWeek: 7,
+  defaultLocale: getLocaleDefaults('fa-IR'),
+  defaultDirection: 'rtl',
 };
 
 export default {
@@ -49,6 +55,7 @@ export default {
           styles: this.themeStyles_,
           attributes: this.attributes_,
           formats: this.formats_,
+          calendar: this.calendar,
         },
         on: this.mergeListeners({
           'update:page': val => {
@@ -152,7 +159,7 @@ export default {
       };
     },
     wrapperStyle() {
-      return this.themeStyles_.wrapper;
+      return Object.assign({}, this.themeStyles_.wrapper, { direction: this.calendar.defaultDirection });
     },
     dividerStyle() {
       return this.isVertical
