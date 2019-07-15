@@ -186,18 +186,18 @@ export const getMaxPage = (...args) =>
     return comparePages(prev, curr) === 1 ? prev : curr;
   });
 
-export const getPrevPage = page => {
+export const getPrevPage = (page, calendar) => {
   if (!page) return undefined;
-  const prevComps = getPrevMonthComps(page.month, page.year);
+  const prevComps = getPrevMonthComps(page.month, page.year, calendar);
   return {
     month: prevComps.month,
     year: prevComps.year,
   };
 };
 
-export const getNextPage = page => {
+export const getNextPage = (page, calendar) => {
   if (!page) return undefined;
-  const nextComps = getNextMonthComps(page.month, page.year);
+  const nextComps = getNextMonthComps(page.month, page.year, calendar);
   return {
     month: nextComps.month,
     year: nextComps.year,

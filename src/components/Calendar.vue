@@ -156,11 +156,11 @@ export default {
       );
     },
     maxFromPage() {
-      if (this.isDoublePaned_) return getPrevPage(this.maxPage_);
+      if (this.isDoublePaned_) return getPrevPage(this.maxPage_, this.calendar);
       return this.maxPage_;
     },
     minToPage() {
-      if (this.isDoublePaned_) return getNextPage(this.minPage_);
+      if (this.isDoublePaned_) return getNextPage(this.minPage_, this.calendar);
       return null;
     },
     themeStyles_() {
@@ -200,7 +200,7 @@ export default {
       this.$emit('update:fromPage', val);
       if (!this.isDoublePaned) return;
       if (this.isLinked || !pageIsBeforePage(val, this.toPage_))
-        this.toPage_ = getNextPage(val);
+        this.toPage_ = getNextPage(val, this.calendar);
     },
     toPage_(val, oldVal) {
       if (pageIsEqualToPage(val, oldVal)) return;
@@ -208,14 +208,14 @@ export default {
       this.$emit('update:toPage', val);
       if (!this.isDoublePaned) return;
       if (this.isLinked || !pageIsAfterPage(val, this.fromPage_))
-        this.fromPage_ = getPrevPage(val);
+        this.fromPage_ = getPrevPage(val, this.calendar);
     },
     isDoublePaned_() {
       this.refreshIsConstrained();
       this.refreshToPage();
     },
     isLinked(val) {
-      if (val) this.toPage_ = getNextPage(this.fromPage_);
+      if (val) this.toPage_ = getNextPage(this.fromPage_, this.calendar);
     },
     isExpanded() {
       this.refreshIsConstrained();
@@ -242,16 +242,16 @@ export default {
           { month: todayComps.month, year: todayComps.year },
         ].map(p => getPageBetweenPages(p, this.minPage_, this.maxPage_)),
         this.minPage_,
-        getPrevPage(this.maxPage_),
+        getPrevPage(this.maxPage_, this.calendar),
       );
     },
     refreshToPage() {
       this.toPage_ = getFirstValidPage(
-        ...[this.toPage, getNextPage(this.fromPage_)].map(p =>
+        ...[this.toPage, getNextPage(this.fromPage_, this.calendar)].map(p =>
           getPageBetweenPages(p, this.minPage_, this.maxPage_),
         ),
         this.maxPage_,
-        getNextPage(this.minPage_),
+        getNextPage(this.minPage_, this.calendar),
       );
     },
     refreshIsConstrained() {
