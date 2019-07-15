@@ -1,4 +1,5 @@
 import Calendar from './components/Calendar';
+import { JalaliDate, GregorianDate } from './components/Calendar';
 import DatePicker from './components/DatePicker';
 import Popover from './components/Popover';
 import getLocaleDefaults from './utils/locales';
@@ -8,6 +9,10 @@ const components = {
   Calendar,
   DatePicker,
   Popover,
+  Dates: {
+    JalaliDate,
+    GregorianDate,
+  },
 };
 
 const setupCalendar = userDefaults => {
