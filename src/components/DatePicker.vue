@@ -36,6 +36,7 @@ export default {
           calendar: JalaliDate,
           isDoublePaned: this.doubleMonth,
           isLinked: this.doubleMonth,
+          navVisibility: this.navVisibility,
         },
         on: this.mergeListeners(
           {
@@ -154,6 +155,7 @@ export default {
     toPage: Object,
     themeStyles: { type: Object, default: () => ({}) }, // Resolved by computed property
     doubleMonth: { type: Boolean, default: () => false },
+    navVisibility: String,
   },
   data() {
     return {

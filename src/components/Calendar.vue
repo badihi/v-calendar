@@ -67,6 +67,7 @@ export default {
           attributes: this.attributes_,
           formats: this.formats_,
           calendar: this.calendar,
+          navVisibility: this.navVisibility,
         },
         on: this.mergeListeners({
           'update:page': val => {
@@ -123,6 +124,7 @@ export default {
     themeStyles: Object,
     attributes: Array,
     formats: Object,
+    navVisibility: String,
     calendar: {
       type: Object,
       default: () => GregorianDate,
