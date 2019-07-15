@@ -17,6 +17,7 @@
         :double-month="true"
         :is-required="true"
         nav-visibility="hidden"
+        :select-attribute="selectAttribute"
       />
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,Array.prototype.find,Array.prototype.includes,Array.prototype.forEach"></script>
@@ -29,6 +30,9 @@
           data: {
             sth: null,
             fromPage: { month: 4, year: 1398 },
+            selectAttribute: {
+              dot: true
+            },
             // Data used by the date picker
             attrs: [
               {
