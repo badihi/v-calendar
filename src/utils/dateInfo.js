@@ -5,6 +5,7 @@ import {
   isObject,
   isArray,
   isFunction,
+  getType,
 } from './typeCheckers';
 import defaults from './defaults';
 import { mixinOptionalProps, getMonthComps } from './helpers';
@@ -258,7 +259,7 @@ const DateInfo = (config, order) => {
     let date =
       (!isString(config) && new Date(config)) ||
       parse(config, defaults.formats.data || ['L', 'YYYY-MM-DD', 'YYYY/MM/DD']);
-    if (config && config.constructor.name.includes('Date') && config.constructor.name !== 'Date') {
+    if (config && config.isDate && getType(config) !== 'Date') {
       date = config.getGregorianDate();
     }
     // Can't accept invalid dates

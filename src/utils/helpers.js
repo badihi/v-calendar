@@ -6,6 +6,7 @@ import {
   isArray,
   isObject,
   isFunction,
+  getType,
 } from './typeCheckers';
 import { parse } from './fecha';
 
@@ -53,7 +54,7 @@ export const getMonthDates = (year = 2000, calendar) => {
   for (let i = 0; i < 12; i++) {
     // eslint-disable-next-line new-cap
     let date = new calendar(year, i, 15);
-    if (date.constructor.name !== 'Date') {
+    if (getType(date) !== 'Date') {
       date = date.getGregorianDate();
     }
     dates.push(date);

@@ -861,6 +861,8 @@ export default function JDate(i, h, f) {
         e(i)
     }
 
+    this.isDate = true;
+
     function j(l) {
         var k = 0;
         if (l[1] < 0) {
