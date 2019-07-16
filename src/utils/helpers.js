@@ -35,11 +35,12 @@ export const toDate = d => {
 };
 
 export const getPageForDate = date => {
-  const d = toDate(date);
+  if (!isDate(date))
+    date = toDate(date);
   return (
-    d && {
-      month: d.getMonth() + 1,
-      year: d.getFullYear(),
+    date && {
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
     }
   );
 };

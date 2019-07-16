@@ -9,7 +9,7 @@ import Attribute from '@/utils/attribute';
 import defaults, { resolveDefault } from '@/utils/defaults';
 import { addDays } from '@/utils/dateInfo';
 import { pageIsBetweenPages } from '@/utils/helpers';
-import { isString, isFunction, isObject, isArray } from '@/utils/typeCheckers';
+import { isString, isFunction, isObject, isArray, getType } from '@/utils/typeCheckers';
 import { format, parse } from '@/utils/fecha';
 import { mergeListeners } from '@/mixins';
 // import { GregorianDate } from './Calendar';
@@ -113,8 +113,8 @@ export default {
     value: { type: null, required: true },
     isRequired: Boolean,
     isInline: Boolean,
-    minDate: Date,
-    maxDate: Date,
+    minDate: Object,
+    maxDate: Object,
     disabledDates: null,
     availableDates: null,
     formats: Object, // Resolved by computed property
@@ -201,10 +201,18 @@ export default {
         if (isArray(this.disabledDates)) dates.push(...this.disabledDates);
         else dates.push(this.disabledDates);
       }
-      if (this.minDate)
-        dates.push({ start: null, end: addDays(this.minDate, -1) });
-      if (this.maxDate)
-        dates.push({ start: addDays(this.maxDate, 1), end: null });
+
+      let minDate = this.minDate;
+      if (minDate && getType(this.minDate) !== 'Date' && this.minDate.isDate)
+        minDate = this.minDate.getGregorianDate();
+      let maxDate = this.maxDate;
+      if (maxDate && getType(this.maxDate) !== 'Date' && this.maxDate.isDate)
+        maxDate = this.maxDate.getGregorianDate();
+
+      if (minDate)
+        dates.push({ start: null, end: addDays(minDate, -1) });
+      if (maxDate)
+        dates.push({ start: addDays(maxDate, 1), end: null });
       return dates;
     },
     disabledAttribute_() {

@@ -18,20 +18,25 @@
         :is-required="true"
         nav-visibility="hidden"
         :select-attribute="selectAttribute"
+        :min-date="minDate"
+        :max-date="maxDate"
       />
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,Array.prototype.find,Array.prototype.includes,Array.prototype.forEach"></script>
     <!-- built files will be auto injected -->
     <script src='https://unpkg.com/vue/dist/vue.js'></script>
+    <script src='/src/utils/jalalidate.1.js'></script>
     <script>
       window.onload = function() {
         new Vue({
           el: '#app',
           data: {
             sth: null,
+            minDate: new JDate(1398, 3, 13),
+            maxDate: new JDate(1398, 4, 13),
             fromPage: { month: 4, year: 1398 },
             selectAttribute: {
-              dot: true
+
             },
             // Data used by the date picker
             attrs: [

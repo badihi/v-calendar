@@ -106,8 +106,8 @@ export default {
     CalendarPane,
   },
   props: {
-    minDate: Date,
-    maxDate: Date,
+    minDate: Object,
+    maxDate: Object,
     minPage: Object,
     maxPage: Object,
     fromPage: Object,

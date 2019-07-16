@@ -852,7 +852,7 @@ function jd_to_persian(jd) {
     return new Array(year, month, day);
 }
 
-export default function JDate(i, h, f) {
+function JDate(i, h, f) {
     var d;
     var a;
     if (!isNaN(parseInt(i)) && !isNaN(parseInt(h)) && !isNaN(parseInt(f))) {
@@ -976,12 +976,5 @@ export default function JDate(i, h, f) {
     };
     this.getTime = function() {
       return d.getTime();
-    };
-    this.isGreaterThan = function(date) {
-      return this.getYear() > date.getYear() || (this.getYear() == date.getYear() && this.getMonth() > date.getMonth()) || (this.getYear() == date.getYear() && this.getMonth() == date.getMonth() && this.getDate() > date.getDate());
     }
 };
-
-Date.prototype.isGreaterThan = function(date) {
-  return this > date;
-}

@@ -37,11 +37,11 @@ function findShallowIntersectingRange(date1, date2) {
     start = otherRange.start;
   }
   // Assign end date to this one if it is valid
-  if (thisRange.end && (!start || thisRange.end >= start)) {
+  if (thisRange.end && (!start || thisRange.end.isGreaterThan(start) || thisRange.end.getDate() === start.getDate())) {
     end = thisRange.end;
   }
   // Assign end date to other one if it is valid and before this one
-  if (otherRange.end && (!start || otherRange.end >= start)) {
+  if (otherRange.end && (!start || otherRange.end.isGreaterThan(start) || otherRange.end.getDate() === start.getDate())) {
     if (!end || otherRange.end < end) end = otherRange.end;
   }
   // Return calculated range
@@ -62,13 +62,13 @@ function dateShallowIncludesDate(date1, date2) {
   }
   // Second date is simple date and first is date range
   if (date2.isDate) {
-    if (date1.start && date2.date < date1.start) return false;
-    if (date1.end && date2.date > date1.end) return false;
+    if (date1.start && date1.start.isGreaterThan(date2.date)) return false;
+    if (date1.end && date2.date.isGreaterThan(date1.end)) return false;
     return true;
   }
   // Both dates are date ranges
-  if (date1.start && (!date2.start || date2.start < date1.start)) return false;
-  if (date1.end && (!date2.end || date2.end > date1.end)) return false;
+  if (date1.start && (!date2.start || date1.start.isGreaterThan(date2.start))) return false;
+  if (date1.end && (!date2.end || date2.end.isGreaterThan(date1.end))) return false;
   return true;
 }
 // ========================================================
@@ -81,8 +81,8 @@ function dateShallowIntersectsDate(date1, date2) {
       : dateShallowIncludesDate(date2, date1);
   if (date2.isDate) return dateShallowIncludesDate(date1, date2);
   // Both ranges
-  if (date1.start && date2.end && date1.start > date2.end) return false;
-  if (date1.end && date2.start && date1.end < date2.start) return false;
+  if (date1.start && date2.end && date1.start.isGreaterThan(date2.end)) return false;
+  if (date1.end && date2.start && date2.start.isGreaterThan(date1.end)) return false;
   return true;
 }
 
@@ -116,9 +116,10 @@ export function getDayFromDate(date) {
 }
 
 export function addDays(date, days) {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
+  if (!date.isDate)
+    date = new Date(date);
+  date.setDate(date.getDate() + days);
+  return date;
 }
 
 function iterateDatesInRange({ start, end }, func) {
@@ -283,7 +284,7 @@ const DateInfo = (config, order) => {
       let start = config.start && new Date(config.start);
       let end = config.end && new Date(config.end);
       // Reconfigure start and end dates if needed
-      if (start && end && start > end) {
+      if (start && end && start.isGreaterThan(end)) {
         const temp = start;
         start = end;
         end = temp;
