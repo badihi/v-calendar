@@ -81,7 +81,7 @@ export default {
           //  so we'll supply all the data we can
           // eslint-disable-next-line new-cap
           const date = new (this.calendar.calendar)(year, month - 1, day);
-          const isToday = day === todayComps.day && month === todayComps.month && year === todayComps.year;
+          const isToday = day === todayComps(this.calendar).day && month === todayComps(this.calendar).month && year === todayComps(this.calendar).year;
           const isFirstDay = thisMonth && day === 1;
           const isLastDay = thisMonth && day === this.monthComps.days;
           days.push({

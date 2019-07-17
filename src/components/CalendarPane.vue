@@ -174,7 +174,7 @@ export default {
   },
   props: {
     position: { type: Number, default: 1 },
-    page: { type: Object, default: () => todayComps },
+    page: { type: Object, default: () => todayComps(this.calendar) },
     navVisibility: { type: String, default: () => defaults.navVisibility },
     minPage: Object,
     maxPage: Object,
@@ -282,7 +282,7 @@ export default {
     if (this.page) {
       this.page_ = this.loadPage(this.page);
     } else {
-      this.page_ = this.loadPage(todayComps);
+      this.page_ = this.loadPage(todayComps(this.calendar));
       this.$emit('update:page', this.page_);
     }
     this.preloadPages();
@@ -368,7 +368,7 @@ export default {
       this.move(this.page_.prevMonthComps);
     },
     moveThisMonth() {
-      this.move(todayComps);
+      this.move(todayComps(this.calendar));
     },
     moveNextMonth() {
       this.move(this.page_.nextMonthComps);
@@ -379,7 +379,7 @@ export default {
     move(pageInfo) {
       if (this.canMove(pageInfo)) {
         this.forceMove(pageInfo);
-      } else if (pageIsBeforePage(todayComps, this.minPage)) {
+      } else if (pageIsBeforePage(todayComps(this.calendar), this.minPage)) {
         this.forceMove(this.minPage);
       } else if (pageIsAfterPage(pageInfo, this.maxPage)) {
         this.forceMove(this.maxPage);

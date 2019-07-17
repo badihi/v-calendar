@@ -14,29 +14,30 @@ const monthComps = {};
 
 // Calendar data
 export const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-export const today = new Date();
-export const todayComps = {
-  year: today.getFullYear(),
-  month: today.getMonth() + 1,
-  day: today.getDate(),
-};
+// eslint-disable-next-line new-cap
+export const today = calendar => new (calendar.calendar)();
+export const todayComps = calendar => ({
+  year: today(calendar).getFullYear(),
+  month: today(calendar).getMonth() + 1,
+  day: today(calendar).getDate(),
+});
 
-export const toDate = d => {
+export const toDate = (d, calendar) => {
   if (isDate(d)) return new Date(d.getTime());
   if (isNumber(d)) return new Date(d);
   if (isString(d)) return parse(d, ['L', 'YYYY-MM-DD', 'YYYY/MM/DD']);
   if (isObject(d))
     return new Date(
-      d.year || today.getFullYear(),
-      d.month || today.getMonth(),
-      d.day || today.getDate(),
+      d.year || today(calendar).getFullYear(),
+      d.month || today(calendar).getMonth(),
+      d.day || today(calendar).getDate(),
     );
   return new Date(d);
 };
 
-export const getPageForDate = date => {
+export const getPageForDate = (date, calendar) => {
   if (!isDate(date))
-    date = toDate(date);
+    date = toDate(date, calendar);
   return (
     date && {
       month: date.getMonth() + 1,
@@ -121,8 +122,8 @@ export const getDateComps = date => {
 };
 
 // Days/month/year components for today's month
-export const getThisMonthComps = () =>
-  getMonthComps(todayComps.month, todayComps.year);
+export const getThisMonthComps = (calendar) =>
+  getMonthComps(todayComps(calendar).month, todayComps(calendar).year);
 
 // Day/month/year components for previous month
 export const getPrevMonthComps = (month, year, calendar) => {
@@ -136,8 +137,8 @@ export const getNextMonthComps = (month, year, calendar) => {
   return getMonthComps(month + 1, year, calendar);
 };
 
-export const getExampleMonthComps = () => {
-  const thisMonthComps = getThisMonthComps();
+export const getExampleMonthComps = (calendar) => {
+  const thisMonthComps = getThisMonthComps(calendar);
   const nextMonthComps = getNextMonthComps(
     thisMonthComps.month,
     thisMonthComps.year,

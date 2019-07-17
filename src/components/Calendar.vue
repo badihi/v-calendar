@@ -143,7 +143,7 @@ export default {
     },
     minPage_() {
       return (
-        this.minPage || (this.minDate && getPageForDate(this.minDate)) || null
+        this.minPage || (this.minDate && getPageForDate(this.minDate, this.calendar)) || null
       );
     },
     rightButtonHidden() {
@@ -154,7 +154,7 @@ export default {
     },
     maxPage_() {
       return (
-        this.maxPage || (this.maxDate && getPageForDate(this.maxDate)) || null
+        this.maxPage || (this.maxDate && getPageForDate(this.maxDate, this.calendar)) || null
       );
     },
     maxFromPage() {
@@ -241,7 +241,7 @@ export default {
       this.fromPage_ = getFirstValidPage(
         ...[
           this.fromPage,
-          { month: todayComps.month, year: todayComps.year },
+          { month: todayComps(this.calendar).month, year: todayComps(this.calendar).year },
         ].map(p => getPageBetweenPages(p, this.minPage_, this.maxPage_)),
         this.minPage_,
         getPrevPage(this.maxPage_, this.calendar),
