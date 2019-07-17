@@ -10,7 +10,8 @@
       <div class='c-arrow-layout' @click='movePrevMonth'>
         <slot
           name='header-left-button'
-          v-bind='page_'
+          v-bind:canMovePrevMonth='canMovePrevMonth'
+          v-bind:page='page_'
           v-if='!hideLeftButton'>
           <svg-icon
             :name='calendar.defaultDirection === "ltr" ? "leftArrow" : "rightArrow"'
@@ -73,7 +74,8 @@
       <div class='c-arrow-layout' @click='moveNextMonth'>
         <slot
           name='header-right-button'
-          v-bind='page_'
+          v-bind:canMoveNextMonth='canMoveNextMonth'
+          v-bind:page='page_'
           v-if='!hideRightButton'>
           <svg-icon
             :name='calendar.defaultDirection === "rtl" ? "leftArrow" : "rightArrow"'
