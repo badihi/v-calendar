@@ -33,7 +33,7 @@ export default {
           fromPage: this.fromPage_,
           toPage: this.toPage_,
           themeStyles: this.themeStyles_,
-          calendar: JalaliDate,
+          calendar: this.calendar,
           isDoublePaned: this.doubleMonth,
           isLinked: this.doubleMonth,
           navVisibility: this.navVisibility,
@@ -156,6 +156,10 @@ export default {
     themeStyles: { type: Object, default: () => ({}) }, // Resolved by computed property
     doubleMonth: { type: Boolean, default: () => false },
     navVisibility: String,
+    calendar: {
+      type: Object,
+      default: () => JalaliDate,
+    },
   },
   data() {
     return {
