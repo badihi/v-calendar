@@ -23,7 +23,7 @@ export const GregorianDate = {
   defaultDirection: 'ltr',
   inLeapYear: year => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0,
   daysInMonths: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-  daysInMonth: (month, year) => month === 2 && this.inLeapYear(year) ? 29 : this.daysInMonths[month - 1],
+  daysInMonth: (month, year) => month === 2 && GregorianDate.inLeapYear(year) ? 29 : GregorianDate.daysInMonths[month - 1],
 };
 
 export const JalaliDate = {
@@ -106,8 +106,12 @@ export default {
     CalendarPane,
   },
   props: {
-    minDate: Object,
-    maxDate: Object,
+    minDate: {
+      default: () => null,
+    },
+    maxDate: {
+      default: () => null,
+    },
     minPage: Object,
     maxPage: Object,
     fromPage: Object,

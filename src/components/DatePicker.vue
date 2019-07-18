@@ -22,14 +22,14 @@ export default {
       h(this.componentName, {
         attrs: {
           ...this.$attrs,
-          value: this.value,
+          value: this.value_,
           isRequired: this.isRequired,
           formats: this.formats_,
           selectAttribute: this.selectAttribute_,
           dragAttribute: this.dragAttribute_,
           disabledAttribute: this.disabledAttribute_,
-          minDate: this.minDate,
-          maxDate: this.maxDate,
+          minDate: this.minDate_,
+          maxDate: this.maxDate_,
           fromPage: this.fromPage_,
           toPage: this.toPage_,
           themeStyles: this.themeStyles_,
@@ -165,6 +165,9 @@ export default {
     return {
       fromPage_: null,
       toPage_: null,
+      minDate_: undefined,
+      maxDate_: undefined,
+      value_: undefined,
       dragValue: null,
       inputValue: '',
       popoverForceHidden: false,
@@ -241,7 +244,7 @@ export default {
         return {
           ...defaultProps({
             mode: this.mode,
-            value: this.value,
+            value: this.value_,
             dragValue: this.dragValue,
             format:
               defaults.masks[this.inputFormats[0]] || this.inputFormats[0],
@@ -315,7 +318,8 @@ export default {
       // Clear value on select mode change
       this.$emit('input', null);
     },
-    value() {
+    value(val) {
+      this.value_ = val;
       this.assignPageRange();
       if (!this.disableFormatInput) this.formatInput();
       if (this.mode !== 'multiple' && !this.disablePopoverForceHidden)
@@ -327,12 +331,28 @@ export default {
       this.formatInput();
     },
     disabledAttribute_() {
-      if (!this.dragValue) this.updateValue(this.value);
+      if (!this.dragValue) this.updateValue(this.value_);
+    },
+    minDate(newVal) {
+      this.minDate_ = newVal;
+    },
+    maxDate(newVal) {
+      this.maxDate_ = newVal;
+    },
+    calendar(newVal, oldVal) {
+      if (newVal === oldVal) return;
+      this.minDate_ = this.changeDate(this.minDate_);
+      this.maxDate_ = this.changeDate(this.maxDate_);
+      this.value_ = this.changeDate(this.value_);
+      this.assignPageRange();
     },
   },
   created() {
     this.fromPage_ = this.fromPage;
     this.toPage_ = this.toPage;
+    this.minDate_ = this.minDate;
+    this.maxDate_ = this.maxDate;
+    this.value_ = this.value;
     this.assignPageRange();
     this.formatInput();
   },
@@ -405,7 +425,7 @@ export default {
       return listeners;
     },
     assignPageRange() {
-      const range = this.profile.getPageRange(this.value);
+      const range = this.profile.getPageRange(this.value_);
       if (range) {
         const fromInRange = pageIsBetweenPages(
           this.fromPage_,
@@ -454,7 +474,7 @@ export default {
     inputKeyup(e) {
       // Escape key
       if (e.keyCode === 27) {
-        this.updateValue(this.value, {
+        this.updateValue(this.value_, {
           formatInput: true,
           hidePopover: true,
         });
@@ -478,13 +498,13 @@ export default {
         value: this.profile.normalizeValue(parsedValue),
         isRequired: this.isRequired,
         disabled: this.disabledAttribute_,
-        fallbackValue: this.value,
+        fallbackValue: this.value_,
       });
       // Don't do anything if user input value is invalid - Just return
       if (!this.profile.valuesAreEqual(parsedValue, filteredValue)) return;
       // Check if new value is different from the current value
       const valueHasChanged = !this.profile.valuesAreEqual(
-        this.value,
+        this.value_,
         filteredValue,
       );
       if (valueHasChanged) {
@@ -498,13 +518,23 @@ export default {
     },
     formatInput() {
       this.$nextTick(() => {
-        this.inputValue = this.profile.formatValue(this.value, this.dragValue);
+        this.inputValue = this.profile.formatValue(this.value_, this.dragValue);
       });
     },
     hidePopover() {
       setTimeout(() => {
         this.popoverForceHidden = true;
       }, 200);
+    },
+    changeDate(date) {
+      if (!date)
+        return date;
+      if (date.constructor.name !== 'Date' && date.isDate) {
+        date = date.getGregorianDate();
+      }
+      // eslint-disable-next-line new-cap
+      date = new (this.calendar.calendar)(date);
+      return date;
     },
   },
 };

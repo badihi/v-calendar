@@ -22,7 +22,7 @@ export default {
     Calendar,
   },
   props: {
-    value: { type: Object, default: null },
+    value: { type: null, default: null },
     isRequired: Boolean,
     selectAttribute: Object,
     disabledAttribute: Object,
