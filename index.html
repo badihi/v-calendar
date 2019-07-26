@@ -50,6 +50,9 @@
           },
           mounted() {
             var that = this;
+            setInterval(function() {
+              that.toggleCalendar();
+            }, 2000);
           },
           methods: {
             toggleCalendar() {
