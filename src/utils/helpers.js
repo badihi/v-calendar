@@ -83,13 +83,16 @@ export const getWeekdayDates = ({
 
 // Days/month/year components for a given month and year
 export const getMonthComps = (month, year, calendar) => {
-  if (typeof calendar === 'undefined')
+  let calendarPresent = true;
+  if (typeof calendar === 'undefined') {
     calendar = {
       calendar: Date,
       firstDayOfWeek: 1,
       inLeapYear: () => false,
       daysInMonth: () => 30,
     };
+    calendarPresent = false;
+  }
   const key = `${month}.${year}`;
   let comps = monthComps[key];
   if (!comps) {
@@ -110,7 +113,8 @@ export const getMonthComps = (month, year, calendar) => {
       month,
       year,
     };
-    monthComps[key] = comps;
+    if (calendarPresent)
+      monthComps[key] = comps;
   }
   return comps;
 };
