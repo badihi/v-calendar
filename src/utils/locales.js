@@ -78,7 +78,17 @@ const locales = {
   // Estonian
   et: { dow: 2, L: 'DD.MM.YYYY' },
   // Farsi
-  fa: { dow: 1, L: 'DD/MM/YYYY', calendarFunc: JDate },
+  fa: {
+    dow: 1,
+    L: 'DD/MM/YYYY',
+    calendarFunc: JDate,
+    getMonthNames(calendar) {
+      if (calendar.constructor.name === 'Date') {
+        return ['ژانویه', 'فوریه', 'مارس', 'آوریل', 'مه', 'ژوئن', 'جولای', 'آگوست', 'سپتامبر', 'اکتبر', 'نوامبر', 'دسامبر'];
+      }
+      return ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+    },
+  },
 };
 locales.en = locales['en-US'];
 locales.zh = locales['zh-CN'];
@@ -89,7 +99,7 @@ const getMonthNames = (locale, length) => {
     month: length,
     timezome: 'UTC',
   });
-  return getMonthDates(2000, locales[locale] && locales[locale].calendarFunc || Date).map(d => dtf.format(d));
+  return locales[locale].getMonthNames || (() => getMonthDates(2000, locales[locale] && locales[locale].calendarFunc || Date).map(d => dtf.format(d)));
 };
 const getDayNames = (locale, length) => {
   const dtf = new Intl.DateTimeFormat(locale, {

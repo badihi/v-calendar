@@ -67,10 +67,10 @@ const formatFlags = {
     return pad(dateObj.getMonth() + 1);
   },
   MMM(dateObj, i18n) {
-    return i18n.monthNamesShort[dateObj.getMonth()];
+    return i18n.monthNamesShort(dateObj)[dateObj.getMonth()];
   },
   MMMM(dateObj, i18n) {
-    return i18n.monthNames[dateObj.getMonth()];
+    return i18n.monthNames(dateObj)[dateObj.getMonth()];
   },
   YY(dateObj) {
     return String(dateObj.getFullYear()).substr(2);
