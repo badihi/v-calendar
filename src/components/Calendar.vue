@@ -21,6 +21,7 @@ export const GregorianDate = {
   calendar: Date,
   firstDayOfWeek: 1,
   defaultDirection: 'ltr',
+  defaultLocale: getLocaleDefaults('fa'),
   inLeapYear: year => (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0,
   daysInMonths: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
   daysInMonth: (month, year) => month === 2 && GregorianDate.inLeapYear(year) ? 29 : GregorianDate.daysInMonths[month - 1],
