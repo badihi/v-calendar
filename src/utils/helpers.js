@@ -56,9 +56,9 @@ export const getMonthDates = (year = 2000, calendar) => {
   for (let i = 0; i < 12; i++) {
     // eslint-disable-next-line new-cap
     let date = new calendar(year, i, 15);
-    if (getType(date) !== 'Date') {
-      date = date.getGregorianDate();
-    }
+    // if (getType(date) !== 'Date') {
+    //   date = date.getGregorianDate();
+    // }
     dates.push(date);
   }
   return dates;
