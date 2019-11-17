@@ -12,6 +12,7 @@
   toggle-visible-on-click>
   <div
     class='c-day'
+    :class="{ 'not-in-month': !day.inMonth }"
     :style='dayCellStyle'>
     <!-- Background layers -->
     <transition-group
