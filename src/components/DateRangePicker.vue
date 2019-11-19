@@ -2,6 +2,8 @@
 import Calendar from './Calendar';
 import { mergeListeners } from '@/mixins';
 import { rangeNormalizer } from '@/utils/pickerProfiles';
+import { getType } from '@/utils/typeCheckers';
+import { JalaliDate } from './Calendar';
 
 export default {
   mixins: [mergeListeners],
@@ -11,6 +13,7 @@ export default {
         ...this.$attrs,
         attributes: this.attributes_,
         themeStyles: this.themeStyles_,
+        calendar: this.calendar,
       },
       on: this.mergeListeners({
         dayclick: this.clickDay,
@@ -31,6 +34,10 @@ export default {
     disabledAttribute: Object,
     themeStyles: Object,
     attributes: Array,
+    calendar: {
+      type: Object,
+      default: () => JalaliDate,
+    },
   },
   data() {
     return {
@@ -86,13 +93,13 @@ export default {
     });
   },
   methods: {
-    clickDay({ dateTime }) {
+    clickDay({ date }) {
       // Start new drag selection if not dragging
       if (!this.dragValue) {
         // Update drag value if it is valid
         const newDragValue = {
-          start: new Date(dateTime),
-          end: new Date(dateTime),
+          start: date,
+          end: date,
         };
         if (this.dateIsValid(newDragValue)) {
           this.dragValue = newDragValue;
@@ -100,9 +107,15 @@ export default {
       } else {
         // Update selected value if it is valid
         const newValue = rangeNormalizer({
-          start: new Date(this.dragValue.start.getTime()),
-          end: new Date(dateTime),
+          start: this.dragValue.start,
+          end: date,
         });
+
+        // eslint-disable-next-line new-cap
+        newValue.start = new (this.calendar.calendar)(newValue.start);
+        // eslint-disable-next-line new-cap
+        newValue.end = new (this.calendar.calendar)(newValue.end);
+
         if (this.dateIsValid(newValue)) {
           // Clear drag selection
           this.dragValue = null;
@@ -111,13 +124,13 @@ export default {
         }
       }
     },
-    enterDay({ dateTime }) {
+    enterDay({ date }) {
       // Make sure drag has been initialized
       if (this.dragValue) {
         // Calculate the new dragged value
         const newDragValue = {
-          start: new Date(this.dragValue.start.getTime()),
-          end: new Date(dateTime),
+          start: this.dragValue.start,
+          end: date,
         };
         // Check if dragged value is valid
         if (this.dateIsValid(newDragValue)) {
@@ -132,8 +145,12 @@ export default {
       }
     },
     dateIsValid(date) {
+      const newDate = {
+        start: getType(date.start) !== 'Date' ? date.start.getGregorianDate() : date.start,
+        end: getType(date.end) !== 'Date' ? date.end.getGregorianDate() : date.end,
+      };
       return (
-        !this.disabledAttribute || !this.disabledAttribute.intersectsDate(date)
+        !this.disabledAttribute || !this.disabledAttribute.intersectsDate(newDate)
       );
     },
   },

@@ -123,8 +123,8 @@ export const rangeParser = (text, parser) => {
 export const rangeNormalizer = (value) => {
   if (!value || !value.start || !value.end) return null;
   const { start, end } = new DateInfo({
-    start: new Date(value.start),
-    end: new Date(value.end),
+    start: value.start,
+    end: value.end,
   });
   return { start, end };
 };

@@ -283,6 +283,12 @@ const DateInfo = (config, order) => {
       // Initialize start and end dates (null means infinity)
       let start = config.start && new Date(config.start);
       let end = config.end && new Date(config.end);
+      if (config && config.start && config.start.isDate && getType(config.start) !== 'Date') {
+        start = config.start.getGregorianDate();
+      }
+      if (config && config.end && config.end.isDate && getType(config.end) !== 'Date') {
+        end = config.end.getGregorianDate();
+      }
       // Reconfigure start and end dates if needed
       if (start && end && start.isGreaterThan(end)) {
         const temp = start;

@@ -19,6 +19,7 @@
         :select-attribute="selectAttribute"
         :min-date="minDate"
         :calendar="calendar"
+        mode="range"
       />
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,Array.prototype.find,Array.prototype.includes,Array.prototype.forEach"></script>
@@ -51,7 +52,7 @@
           mounted() {
             var that = this;
             setInterval(function() {
-              that.toggleCalendar();
+              // that.toggleCalendar();
             }, 2000);
           },
           methods: {
