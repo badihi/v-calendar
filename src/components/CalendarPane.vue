@@ -4,7 +4,13 @@
   class='c-pane'
   :style='paneStyle'>
   <!--Header slot-->
-  <slot name='header' v-bind='page_'>
+  <slot name='header' v-bind='{
+    page: page_,
+    move: move,
+    canMove: canMove,
+    minPage: minPage,
+    maxPage: maxPage
+  }'>
     <div class='c-header' :style='headerStyle'>
       <!--Header prev button-->
       <div class='c-arrow-layout' @click='movePrevMonth'>
