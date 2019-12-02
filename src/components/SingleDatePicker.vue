@@ -55,9 +55,9 @@ export default {
       }
 
       // Check if selected date was reselected
-      if (singleValuesAreEqual(day.date, this.value)) {
+      if (singleValuesAreEqual(day.date, this.value) && !this.isRequired) {
         // Reset value to null if allowed
-        if (!this.isRequired) this.$emit('input', null);
+        this.$emit('input', null);
       } else {
         // Set value to selected date
         this.$emit('input', day.date);
