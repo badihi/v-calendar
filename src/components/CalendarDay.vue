@@ -1,21 +1,13 @@
 <template>
-<popover
-  align='center'
-  transition='fade'
+<div
   class='c-day-popover'
-  :content-offset='popoverContentOffset'
-  :visibility='popoverVisibility'
-  :content-style='popoverContentStyle'
-  :is-interactive='popoverIsInteractive'
-  @got-focus='isFocused = true'
-  @lost-focus='isFocused = false'
-  toggle-visible-on-click>
+  >
   <div
     class='c-day'
     :class="{ 'not-in-month': !day.inMonth }"
     :style='dayCellStyle'>
     <!-- Background layers -->
-    <transition-group
+    <div
       name='background'
       tag='div'
       class='c-day-backgrounds c-day-layer'>
@@ -28,7 +20,7 @@
           :style='background.style'>
         </div>
       </div>
-    </transition-group>
+    </div>
     <!-- Content layer -->
     <div
       class='c-day-content-wrapper'
@@ -125,7 +117,7 @@
       :attributes='attributesList'>
     </slot>
   </div>
-</popover>
+</div>
 </template>
 
 <script>

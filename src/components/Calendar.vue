@@ -50,7 +50,7 @@ export default {
         attrs: {
           ...this.$attrs,
           position,
-          page: position < 2 ? this.fromPage_ : this.toPage_,
+          page: this.addMonthToPage(this.fromPage_, position),
           minPage: position < 2 ? this.minPage_ : this.minToPage,
           maxPage: position < 2 ? this.maxFromPage : this.maxPage_,
           hideRightButton:
@@ -90,16 +90,7 @@ export default {
         style: this.wrapperStyle,
         ref: 'root',
       },
-      [
-        getPaneComponent(this.isDoublePaned_ ? 1 : 0),
-        ...(this.isDoublePaned_ && [
-          h('div', {
-            class: 'c-pane-div',
-            style: this.dividerStyle,
-          }),
-          getPaneComponent(2),
-        ] || []),
-      ],
+      [...Array(10).keys()].map(i => getPaneComponent(i)),
     );
   },
   name: 'VCalendar',
@@ -276,6 +267,14 @@ export default {
       } else {
         this.isConstrained = false;
       }
+    },
+    addMonthToPage(page, months) {
+      const newPage = { ...page };
+      newPage.month += months;
+      const actualMonth = (newPage.month - 1) % 12 + 1;
+      newPage.year += Math.floor((newPage.month - 1) / 12);
+      newPage.month = actualMonth;
+      return newPage;
     },
   },
 };

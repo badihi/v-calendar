@@ -382,6 +382,10 @@ const DateInfo = (config, order) => {
   };
   // ========================================================
   info.includesDay = day => {
+    if (info.type === 'range') {
+      const time = day.date.getTime();
+      return time >= info.start && time <= info.end;
+    }
     const date = DateInfo(day.date);
     // Date is outside general range - return null
     if (!info.shallowIncludesDate(date)) return null;
