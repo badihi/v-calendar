@@ -382,7 +382,7 @@ const DateInfo = (config, order) => {
   };
   // ========================================================
   info.includesDay = day => {
-    if (info.type === 'range') {
+    if (info.type === 'range' && (info.start || info.end)) {
       const time = day.date.getTime();
       return time >= info.start && time <= info.end;
     }

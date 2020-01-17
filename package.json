@@ -36,6 +36,7 @@
     "build": "node build/build-lib.js"
   },
   "dependencies": {
+    "node-sass": "^4.13.1",
     "vue": "^2.5.0"
   },
   "devDependencies": {
@@ -73,7 +74,6 @@
     "jest": "^21.2.0",
     "jest-serializer-vue": "^0.3.0",
     "node-notifier": "^5.1.2",
-    "node-sass": "^4.7.2",
     "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",

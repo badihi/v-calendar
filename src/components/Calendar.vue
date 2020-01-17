@@ -51,18 +51,12 @@ export default {
           ...this.$attrs,
           position,
           page: this.addMonthToPage(this.fromPage_, position),
-          minPage: position < 2 ? this.minPage_ : this.minToPage,
-          maxPage: position < 2 ? this.maxFromPage : this.maxPage_,
+          minPage: this.minPage_,
+          maxPage: this.maxPage_,
           hideRightButton:
-            !this.showLinkedButtons &&
-            position === 1 &&
-            this.isLinked &&
-            !this.isVertical,
+            position !== this.monthCount - 1,
           hideLeftButton:
-            !this.showLinkedButtons &&
-            position === 2 &&
-            this.isLinked &&
-            !this.isVertical,
+            position !== 0,
           paneWidth: this.paneWidth,
           styles: this.themeStyles_,
           attributes: this.attributes_,
@@ -72,8 +66,11 @@ export default {
         },
         on: this.mergeListeners({
           'update:page': val => {
-            if (position < 2) this.fromPage_ = val;
-            else this.toPage_ = val;
+            if (position === 0) {
+              this.fromPage_ = val;
+            } else if (position === this.monthCount - 1) {
+              this.fromPage_ = this.addMonthToPage(val, -this.monthCount + 1);
+            }
           },
         }),
         slots: this.$slots,
@@ -90,7 +87,7 @@ export default {
         style: this.wrapperStyle,
         ref: 'root',
       },
-      [...Array(10).keys()].map(i => getPaneComponent(i)),
+      [...Array(this.monthCount).keys()].map(i => getPaneComponent(i)),
     );
   },
   name: 'VCalendar',
@@ -108,6 +105,10 @@ export default {
     maxPage: Object,
     fromPage: Object,
     toPage: Object,
+    monthCount: {
+      type: Number,
+      default: 1,
+    },
     showLinkedButtons: {
       type: Boolean,
       default: () => defaults.showLinkedButtons,
@@ -271,7 +272,7 @@ export default {
     addMonthToPage(page, months) {
       const newPage = { ...page };
       newPage.month += months;
-      const actualMonth = (newPage.month - 1) % 12 + 1;
+      const actualMonth = (((newPage.month - 1) % 12 + 12) % 12) + 1;
       newPage.year += Math.floor((newPage.month - 1) / 12);
       newPage.month = actualMonth;
       return newPage;
