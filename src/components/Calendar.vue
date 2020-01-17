@@ -68,8 +68,10 @@ export default {
           'update:page': val => {
             if (position === 0) {
               this.fromPage_ = val;
+              this.toPage_ = this.addMonthToPage(val, this.monthCount - 1);
             } else if (position === this.monthCount - 1) {
               this.fromPage_ = this.addMonthToPage(val, -this.monthCount + 1);
+              this.toPage_ = val;
             }
           },
         }),
