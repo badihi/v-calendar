@@ -34,6 +34,10 @@ export default {
     disabledAttribute: Object,
     themeStyles: Object,
     attributes: Array,
+    minDuration: {
+      type: Number,
+      default: 0,
+    },
     calendar: {
       type: Object,
       default: () => JalaliDate,
@@ -101,7 +105,7 @@ export default {
           start: date,
           end: date,
         };
-        if (this.dateIsValid(newDragValue)) {
+        if (this.dateIsValid(newDragValue, false)) {
           this.dragValue = newDragValue;
         }
       } else {
@@ -116,7 +120,7 @@ export default {
         // eslint-disable-next-line new-cap
         newValue.end = new (this.calendar.calendar)(newValue.end);
 
-        if (this.dateIsValid(newValue)) {
+        if (this.dateIsValid(newValue, true)) {
           // Clear drag selection
           this.dragValue = null;
           // Signal new value selected
@@ -144,11 +148,12 @@ export default {
         }
       }
     },
-    dateIsValid(date) {
+    dateIsValid(date, checkMinDuration) {
       const newDate = {
         start: getType(date.start) !== 'Date' ? date.start.getGregorianDate() : date.start,
         end: getType(date.end) !== 'Date' ? date.end.getGregorianDate() : date.end,
       };
+      if (checkMinDuration && (newDate.end.getTime() - newDate.start.getTime()) < this.minDuration * 1000 * 24 * 3600) return false;
       return (
         !this.disabledAttribute || !this.disabledAttribute.intersectsDate(newDate)
       );
