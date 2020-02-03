@@ -980,8 +980,15 @@ export default function JDate(i, h, f) {
     this.isGreaterThan = function(date) {
       return this.getYear() > date.getYear() || (this.getYear() == date.getYear() && this.getMonth() > date.getMonth()) || (this.getYear() == date.getYear() && this.getMonth() == date.getMonth() && this.getDate() > date.getDate());
     }
+    this.getDays = function() {
+      return Math.floor(this.getTime() / 1000 / 3600 / 24);
+    }
 };
 
 Date.prototype.isGreaterThan = function(date) {
   return this > date;
+}
+
+Date.prototype.getDays = function() {
+  return Math.floor(this.getTime() / 1000 / 3600 / 24);
 }
