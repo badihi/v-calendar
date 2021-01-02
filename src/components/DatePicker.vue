@@ -160,6 +160,10 @@ export default {
       type: Object,
       default: () => JalaliDate,
     },
+    autoNavigate: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -449,7 +453,7 @@ export default {
           } else if (!toInRange) {
             this.fromPage_ = range.to;
           }
-        } else {
+        } else if (this.autoNavigate) {
           if (!fromInRange) this.fromPage_ = range.from;
           if (!toInRange) this.toPage_ = range.to;
         }
