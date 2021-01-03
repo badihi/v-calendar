@@ -430,7 +430,7 @@ export default {
     },
     assignPageRange() {
       const range = this.profile.getPageRange(this.value_);
-      if (range) {
+      if (this.autoNavigate && range) {
         const fromInRange = pageIsBetweenPages(
           this.fromPage_,
           range.from,
@@ -453,7 +453,7 @@ export default {
           } else if (!toInRange) {
             this.fromPage_ = range.to;
           }
-        } else if (this.autoNavigate) {
+        } else {
           if (!fromInRange) this.fromPage_ = range.from;
           if (!toInRange) this.toPage_ = range.to;
         }
