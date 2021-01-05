@@ -893,8 +893,8 @@ export default function JDate(i, h, f) {
         return this
     }
     this.getGregorianDate = function() {
-        d.setHours(d.getHours() > 12 ? d.getHours() + 2 : 2);
-        return d
+        // d.setHours(d.getHours() > 12 ? d.getHours() + 2 : 2);
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate());
     };
     this.setFullDate = e;
     this.setGregorianDate = function(year, month, day){
