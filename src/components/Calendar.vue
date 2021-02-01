@@ -66,7 +66,6 @@ export default {
         },
         on: this.mergeListeners({
           'update:page': val => {
-            console.log(position, val);
             if (position === 0) {
               this.fromPage_ = val;
               this.toPage_ = this.addMonthToPage(val, this.monthCount - 1);
@@ -153,6 +152,7 @@ export default {
       return this.position === 2 && this.isLinked && !this.isVertical;
     },
     maxPage_() {
+      if (this.monthCount > 1) return null;
       return (
         this.maxPage || (this.maxDate && getPageForDate(this.maxDate, this.calendar)) || null
       );
@@ -201,16 +201,24 @@ export default {
       this.$emit('update:frompage', val);
       this.$emit('update:fromPage', val);
       if (!this.isDoublePaned) return;
-      if (this.isLinked || !pageIsBeforePage(val, this.toPage_))
-        this.toPage_ = this.addMonthToPage(val, this.monthCount);
+      if (this.isLinked || !pageIsBeforePage(val, this.toPage_)) {
+        const toPage = this.addMonthToPage(val, this.monthCount);
+        if (!pageIsEqualToPage(toPage, this.toPage_)) {
+          this.toPage_ = toPage;
+        }
+      }
     },
     toPage_(val, oldVal) {
       if (pageIsEqualToPage(val, oldVal)) return;
       this.$emit('update:topage', val);
       this.$emit('update:toPage', val);
       if (!this.isDoublePaned) return;
-      if (this.isLinked || !pageIsAfterPage(val, this.fromPage_))
-        this.fromPage_ = this.addMonthToPage(val, -this.monthCount);
+      if (this.isLinked || !pageIsAfterPage(val, this.fromPage_)) {
+        const fromPage = this.addMonthToPage(val, -this.monthCount);
+        if (!pageIsEqualToPage(fromPage, this.fromPage_)) {
+          this.fromPage_ = fromPage;
+        }
+      }
     },
     isDoublePaned_() {
       this.refreshIsConstrained();

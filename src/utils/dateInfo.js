@@ -384,7 +384,8 @@ const DateInfo = (config, order) => {
   info.includesDay = day => {
     const days = day.date.getDays();
     if (info.type === 'range' && (info.start || info.end)) {
-      return days >= new Date(info.start).getDays() && days <= new Date(info.end).getDays();
+      return (!info.start || days >= new Date(info.start).getDays()) &&
+        (!info.end || days <= new Date(info.end).getDays());
     }
     if (info.type === 'date' && info.date) {
       return Math.floor(days) === Math.floor(info.date.getDays());

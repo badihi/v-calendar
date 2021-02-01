@@ -18,10 +18,10 @@
         nav-visibility="hover"
         :select-attribute="selectAttribute"
         :min-date="minDate"
+        :max-date="maxDate"
         :calendar="calendar"
-        :month-count="6"
         :auto-navigate="false"
-        mode="range"
+        mode="single"
       />
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise,Array.prototype.find,Array.prototype.includes,Array.prototype.forEach"></script>
@@ -34,8 +34,8 @@
           el: '#app',
           data: {
             minDate: new JDate(),
-            maxDate: new JDate(1399, 4, 13),
-            value: new JDate(1398, 3, 15),
+            maxDate: new JDate(1399, 10, 20),
+            value: new JDate(1399, 10, 15),
             calendar: Vue._installedPlugins[0].Dates.JalaliDate,
             selectAttribute: {
 
@@ -54,7 +54,7 @@
           mounted() {
             var that = this;
             setTimeout(function() {
-              that.toggleCalendar();
+              // that.toggleCalendar();
             }, 2000);
           },
           methods: {
