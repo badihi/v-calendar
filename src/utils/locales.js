@@ -83,7 +83,7 @@ const locales = {
     L: 'DD/MM/YYYY',
     calendarFunc: JDate,
     getMonthNames(calendar) {
-      if (calendar.constructor.name === 'Date') {
+      if (calendar.constructor === Date) {
         return ['ژانویه', 'فوریه', 'مارس', 'آوریل', 'مه', 'ژوئن', 'جولای', 'آگوست', 'سپتامبر', 'اکتبر', 'نوامبر', 'دسامبر'];
       }
       return ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];

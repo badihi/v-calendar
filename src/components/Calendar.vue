@@ -66,6 +66,7 @@ export default {
         },
         on: this.mergeListeners({
           'update:page': val => {
+            console.log(position, val);
             if (position === 0) {
               this.fromPage_ = val;
               this.toPage_ = this.addMonthToPage(val, this.monthCount - 1);
@@ -201,7 +202,7 @@ export default {
       this.$emit('update:fromPage', val);
       if (!this.isDoublePaned) return;
       if (this.isLinked || !pageIsBeforePage(val, this.toPage_))
-        this.toPage_ = getNextPage(val, this.calendar);
+        this.toPage_ = this.addMonthToPage(val, this.monthCount);
     },
     toPage_(val, oldVal) {
       if (pageIsEqualToPage(val, oldVal)) return;
@@ -209,7 +210,7 @@ export default {
       this.$emit('update:toPage', val);
       if (!this.isDoublePaned) return;
       if (this.isLinked || !pageIsAfterPage(val, this.fromPage_))
-        this.fromPage_ = getPrevPage(val, this.calendar);
+        this.fromPage_ = this.addMonthToPage(val, -this.monthCount);
     },
     isDoublePaned_() {
       this.refreshIsConstrained();

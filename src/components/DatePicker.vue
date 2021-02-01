@@ -348,7 +348,7 @@ export default {
       this.minDate_ = this.changeDate(this.minDate_);
       this.maxDate_ = this.changeDate(this.maxDate_);
       this.value_ = this.changeDate(this.value_);
-      this.assignPageRange();
+      this.assignPageRange(true);
     },
   },
   created() {
@@ -428,9 +428,9 @@ export default {
       delete listeners['update:toPage'];
       return listeners;
     },
-    assignPageRange() {
-      const range = this.profile.getPageRange(this.value_);
-      if (this.autoNavigate && range) {
+    assignPageRange(forceNavagation) {
+      const range = this.profile.getPageRange(this.value_, this.calendar);
+      if ((forceNavagation || this.autoNavigate) && range) {
         const fromInRange = pageIsBetweenPages(
           this.fromPage_,
           range.from,

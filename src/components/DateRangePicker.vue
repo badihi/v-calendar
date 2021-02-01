@@ -27,7 +27,7 @@ export default {
     Calendar,
   },
   props: {
-    value: { type: Object, default: () => {} },
+    value: { type: [Object, Date], default: () => {} },
     isRequired: Boolean,
     dragAttribute: Object,
     selectAttribute: Object,

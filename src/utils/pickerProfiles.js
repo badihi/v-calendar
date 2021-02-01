@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import { isDate } from './typeCheckers';
 import { getDateComps, getNextPage, getMaxPage, getLastArrayItem, arrayHasItems } from './helpers';
 import DateInfo from './dateInfo';
@@ -138,10 +139,10 @@ export const rangeValuesAreEqual = (a, b) => {
   if (!rangeHasValue(a) || !rangeHasValue(b)) return false;
   return singleValuesAreEqual(a.start, b.start) && singleValuesAreEqual(a.end, b.end);
 };
-export const rangeGetPageRange = (value) => {
-  if (!rangeHasValue(value)) return null;
-  const from = getDateComps(value.start);
-  const to = getMaxPage(getDateComps(value.end), getNextPage(from));
+export const rangeGetPageRange = (value, calendar) => {
+  // if (!rangeHasValue(value)) return null;
+  const from = getDateComps(value.start || new calendar.calendar());
+  const to = getMaxPage(getDateComps(value.end || new calendar.calendar()), getNextPage(from));
   return { from, to };
 };
 export const RangePickerProfile = (formatter, parser) => ({
